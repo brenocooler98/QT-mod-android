@@ -42,9 +42,24 @@ class ArrowsMode
 		note.updateHitbox();
 	}
 
+	public static inline var SPACING:Float = 190;
+
+	public static function getLaneCenter(index:Int):Float
+	{
+		return FlxG.width / 2 + (index - 1.5) * SPACING;
+	}
+
 	public static function getLaneX(index:Int, width:Float):Float
 	{
-		var laneWidth:Float = FlxG.width / 4;
-		return laneWidth * index + (laneWidth - width) / 2;
+		return getLaneCenter(index) - width / 2;
+	}
+
+	public static function getLaneEdge(index:Int):Float
+	{
+		if (index <= 0)
+			return 0;
+		if (index >= 4)
+			return FlxG.width;
+		return (getLaneCenter(index - 1) + getLaneCenter(index)) / 2;
 	}
 }

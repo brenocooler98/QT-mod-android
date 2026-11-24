@@ -31,10 +31,19 @@ class Hitbox extends FlxTypedGroup<TouchButton>
 		var laneBottom:Float = withDodge && !dodgeOnTop ? FlxG.height - DODGE_HEIGHT : FlxG.height;
 		var laneHeight:Int = Std.int(Math.max(1, laneBottom - laneY));
 
-		buttonLeft = make(0, laneY, laneWidth, laneHeight, 0xFFC24B99, LEFT);
-		buttonDown = make(laneWidth, laneY, laneWidth, laneHeight, 0xFF00FFFF, DOWN);
-		buttonUp = make(laneWidth * 2, laneY, laneWidth, laneHeight, 0xFF12FA05, UP);
-		buttonRight = make(laneWidth * 3, laneY, FlxG.width - laneWidth * 3, laneHeight, 0xFFF9393F, RIGHT);
+		var edges:Array<Float> = ArrowsMode.active ? [for (i in 0...5) ArrowsMode.getLaneEdge(i)] : [0, laneWidth, laneWidth * 2, laneWidth * 3, FlxG.width];
+		var colors:Array<FlxColor> = [0xFFC24B99, 0xFF00FFFF, 0xFF12FA05, 0xFFF9393F];
+		var controls:Array<Control> = [LEFT, DOWN, UP, RIGHT];
+		var lanes:Array<TouchButton> = [];
+		for (i in 0...4)
+		{
+			var x:Int = Std.int(edges[i]);
+			lanes.push(make(x, laneY, Std.int(edges[i + 1]) - x, laneHeight, colors[i], controls[i]));
+		}
+		buttonLeft = lanes[0];
+		buttonDown = lanes[1];
+		buttonUp = lanes[2];
+		buttonRight = lanes[3];
 
 		if (withDodge)
 		{
