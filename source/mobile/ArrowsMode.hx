@@ -4,6 +4,8 @@ import flixel.FlxG;
 
 class ArrowsMode
 {
+	public static inline var SCALE:Float = 1.15;
+
 	public static var active(default, null):Bool = false;
 
 	static var savedDownscroll:Null<Bool> = null;
@@ -27,6 +29,17 @@ class ArrowsMode
 			FlxG.save.flush();
 		}
 		active = false;
+	}
+
+	public static function scaleNote(note:flixel.FlxSprite):Void
+	{
+		if (!active)
+			return;
+
+		note.scale.x *= SCALE;
+		if (!(cast note : Note).isSustainNote)
+			note.scale.y *= SCALE;
+		note.updateHitbox();
 	}
 
 	public static function getLaneX(index:Int, width:Float):Float

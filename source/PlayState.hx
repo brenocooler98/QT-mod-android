@@ -2571,6 +2571,7 @@ class PlayState extends MusicBeatState
 					if (sustainNote.mustPress)
 					{
 						sustainNote.x += ScreenStyle.BASE_WIDTH / 2 + ScreenStyle.getOffset(); // general offset
+						ArrowsMode.scaleNote(sustainNote);
 					}
 				}
 
@@ -2579,6 +2580,7 @@ class PlayState extends MusicBeatState
 				if (swagNote.mustPress)
 				{
 					swagNote.x += ScreenStyle.BASE_WIDTH / 2 + ScreenStyle.getOffset(); // general offset
+					ArrowsMode.scaleNote(swagNote);
 				}
 				else
 				{
@@ -2712,7 +2714,12 @@ class PlayState extends MusicBeatState
 			if (ArrowsMode.active)
 			{
 				if (player == 1)
+				{
+					babyArrow.scale.x *= ArrowsMode.SCALE;
+					babyArrow.scale.y *= ArrowsMode.SCALE;
+					babyArrow.updateHitbox();
 					babyArrow.x = ArrowsMode.getLaneX(i, babyArrow.width);
+				}
 				else
 					babyArrow.visible = false;
 			}
@@ -3621,7 +3628,18 @@ class PlayState extends MusicBeatState
 					
 
 					if (daNote.isSustainNote)
-						daNote.x += daNote.width / 2 + 17;
+					{
+						if (ArrowsMode.active && daNote.mustPress && !daNote.modifiedByLua)
+						{
+							var strum:FlxSprite = playerStrums.members[Math.floor(Math.abs(daNote.noteData))];
+							daNote.x = strum.x + (strum.width - daNote.width) / 2;
+						}
+						else
+							daNote.x += daNote.width / 2 + 17;
+					}
+
+					if (ArrowsMode.active && !daNote.mustPress)
+						daNote.visible = false;
 					
 
 					//trace(daNote.y);
@@ -3783,6 +3801,9 @@ class PlayState extends MusicBeatState
 	//Pincer logic, used by the modchart but can be hardcoded like saws if you want.
 	function KBPINCER_PREPARE(laneID:Int,goAway:Bool):Void
 	{
+		if (ArrowsMode.active && laneID == 5)
+			return;
+
 		if(!(SONG.song.toLowerCase() == "termination" || SONG.song.toLowerCase() == "tutorial")){
 			trace("Pincer Error, cannot use Termination functions outside Termination or Tutorial.");
 		}
@@ -3902,6 +3923,9 @@ class PlayState extends MusicBeatState
 	}
 	function KBPINCER_GRAB(laneID:Int):Void
 	{
+		if (ArrowsMode.active && laneID == 5)
+			return;
+
 		if(!(SONG.song.toLowerCase() == "termination" || SONG.song.toLowerCase() == "tutorial")){
 			trace("PincerGRAB Error, cannot use Termination functions outside Termination or Tutorial.");
 		}
@@ -4923,8 +4947,8 @@ class PlayState extends MusicBeatState
 					if (spr.animation.curAnim.name == 'confirm' && !curStage.startsWith('school'))
 					{
 						spr.centerOffsets();
-						spr.offset.x -= 13;
-						spr.offset.y -= 13;
+						spr.offset.x -= 13 * (ArrowsMode.active ? ArrowsMode.SCALE : 1);
+						spr.offset.y -= 13 * (ArrowsMode.active ? ArrowsMode.SCALE : 1);
 					}
 					else
 						spr.centerOffsets();
