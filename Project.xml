@@ -14,6 +14,7 @@
 	<architecture exclude="armv7" if="android" />
 
 	<classpath name="source" />
+	<java path="java" if="android" />
 
 	<define name="PRELOAD_ALL" />
 

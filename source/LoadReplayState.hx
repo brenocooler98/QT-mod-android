@@ -1,5 +1,7 @@
 package;
 
+import mobile.ScreenStyle;
+
 
 import Controls.KeyboardScheme;
 import Controls.Control;
@@ -61,6 +63,7 @@ class LoadReplayState extends MusicBeatState
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
 		menuBG.screenCenter();
+		ScreenStyle.cover(menuBG);
 		menuBG.antialiasing = true;
 		add(menuBG);
 

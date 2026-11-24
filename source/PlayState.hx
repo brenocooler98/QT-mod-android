@@ -1,5 +1,7 @@
 package;
 
+import mobile.ScreenStyle;
+
 import openfl.geom.Matrix;
 import openfl.display.BitmapData;
 import openfl.utils.AssetType;
@@ -591,13 +593,13 @@ class PlayState extends MusicBeatState
 				kb_attack_alert.antialiasing = true;
 				kb_attack_alert.setGraphicSize(Std.int(kb_attack_alert.width * 1.5));
 				kb_attack_alert.cameras = [camHUD];
-				kb_attack_alert.x = FlxG.width - 700;
+				kb_attack_alert.x = ScreenStyle.BASE_WIDTH - 700 + ScreenStyle.getOffset();
 				kb_attack_alert.y = 205;
 
 				cessationTroll = new FlxSprite(-62, 540).loadGraphic(Paths.image('bonus/justkidding'));
 				cessationTroll.setGraphicSize(Std.int(cessationTroll.width * 0.9));
 				cessationTroll.cameras = [camHUD];
-				cessationTroll.x = FlxG.width - 950;
+				cessationTroll.x = ScreenStyle.BASE_WIDTH - 950 + ScreenStyle.getOffset();
 				cessationTroll.y = 205;
 			}
 			case 'careless': 
@@ -878,7 +880,7 @@ class PlayState extends MusicBeatState
 				kb_attack_alert.antialiasing = true;
 				kb_attack_alert.setGraphicSize(Std.int(kb_attack_alert.width * 1.5));
 				kb_attack_alert.cameras = [camHUD];
-				kb_attack_alert.x = FlxG.width - 700;
+				kb_attack_alert.x = ScreenStyle.BASE_WIDTH - 700 + ScreenStyle.getOffset();
 				kb_attack_alert.y = 205;
 				//kb_attack_alert.animation.play("alert"); //Placeholder, change this to start already hidden or whatever.
 
@@ -1050,7 +1052,7 @@ class PlayState extends MusicBeatState
 				kb_attack_alert.antialiasing = true;
 				kb_attack_alert.setGraphicSize(Std.int(kb_attack_alert.width * 1.5));
 				kb_attack_alert.cameras = [camHUD];
-				kb_attack_alert.x = FlxG.width - 700;
+				kb_attack_alert.x = ScreenStyle.BASE_WIDTH - 700 + ScreenStyle.getOffset();
 				kb_attack_alert.y = 205;
 				kb_attack_alert.alpha = 0.2;
 			}
@@ -1380,7 +1382,7 @@ class PlayState extends MusicBeatState
 				kb_attack_alert.antialiasing = true;
 				kb_attack_alert.setGraphicSize(Std.int(kb_attack_alert.width * 1.5));
 				kb_attack_alert.cameras = [camHUD];
-				kb_attack_alert.x = FlxG.width - 700;
+				kb_attack_alert.x = ScreenStyle.BASE_WIDTH - 700 + ScreenStyle.getOffset();
 				kb_attack_alert.y = 205;
 			}
 			default:
@@ -2562,7 +2564,7 @@ class PlayState extends MusicBeatState
 
 					if (sustainNote.mustPress)
 					{
-						sustainNote.x += FlxG.width / 2; // general offset
+						sustainNote.x += ScreenStyle.BASE_WIDTH / 2 + ScreenStyle.getOffset(); // general offset
 					}
 				}
 
@@ -2570,7 +2572,7 @@ class PlayState extends MusicBeatState
 
 				if (swagNote.mustPress)
 				{
-					swagNote.x += FlxG.width / 2; // general offset
+					swagNote.x += ScreenStyle.BASE_WIDTH / 2 + ScreenStyle.getOffset(); // general offset
 				}
 				else
 				{
@@ -2699,7 +2701,7 @@ class PlayState extends MusicBeatState
 
 			babyArrow.animation.play('static');
 			babyArrow.x += 50;
-			babyArrow.x += ((FlxG.width / 2) * player);
+			babyArrow.x += ((ScreenStyle.BASE_WIDTH / 2) * player) + ScreenStyle.getOffset();
 
 			strumLineNotes.add(babyArrow);
 		}

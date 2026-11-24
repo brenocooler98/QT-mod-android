@@ -9,6 +9,7 @@ import androidmanager.callback.Callback;
 import androidmanager.view.Window;
 import lime.app.Application;
 import mobile.MobileInput;
+import mobile.ScreenStyle;
 import mobile.StorageUtil;
 import openfl.Lib;
 import openfl.display.FPS;
@@ -57,10 +58,14 @@ class Main extends Sprite
 	{
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 
+		ScreenStyle.load();
+		gameWidth = ScreenStyle.getGameWidth(stage.stageWidth, stage.stageHeight);
+
+		fpsCounter = new FPS(0, 0, 0xFFFFFF);
+
 		game = new FlxGame(gameWidth, gameHeight, initialState, framerate, framerate, skipSplash, startFullscreen);
 		addChild(game);
 
-		fpsCounter = new FPS(0, 0, 0xFFFFFF);
 		addChild(fpsCounter);
 		toggleFPS(FlxG.save.data.fps);
 
@@ -120,12 +125,14 @@ class Main extends Sprite
 
 	public function toggleFPS(fpsEnabled:Bool):Void
 	{
-		fpsCounter.visible = fpsEnabled;
+		if (fpsCounter != null)
+			fpsCounter.visible = fpsEnabled;
 	}
 
 	public function changeFPSColor(color:FlxColor)
 	{
-		fpsCounter.textColor = color;
+		if (fpsCounter != null)
+			fpsCounter.textColor = color;
 	}
 
 	public function setFPSCap(cap:Float)
@@ -140,6 +147,6 @@ class Main extends Sprite
 
 	public function getFPS():Float
 	{
-		return fpsCounter.currentFPS;
+		return fpsCounter != null && fpsCounter.currentFPS > 0 ? fpsCounter.currentFPS : framerate;
 	}
 }

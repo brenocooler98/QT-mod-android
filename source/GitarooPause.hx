@@ -1,5 +1,7 @@
 package;
 
+import mobile.ScreenStyle;
+
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -23,6 +25,7 @@ class GitarooPause extends MusicBeatState
 			FlxG.sound.music.stop();
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('pauseAlt/pauseBG'));
+		ScreenStyle.cover(bg);
 		add(bg);
 
 		var bf:FlxSprite = new FlxSprite(0, 30);

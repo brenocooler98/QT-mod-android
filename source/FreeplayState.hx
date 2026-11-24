@@ -1,5 +1,7 @@
 package;
 
+import mobile.ScreenStyle;
+
 
 import flash.text.TextField;
 import flixel.FlxG;
@@ -70,6 +72,7 @@ class FreeplayState extends MusicBeatState
 		// LOAD CHARACTERS
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
+		ScreenStyle.cover(bg);
 		add(bg);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();

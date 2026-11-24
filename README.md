@@ -14,6 +14,7 @@ This repository only targets **Android (ARM64)**. The Psych Engine version and t
 - Replays and crash logs are saved to `Android/data/com.hazard24.qtmod/files`
 - Screen stays on while playing, immersive fullscreen, and the game pauses itself when the app goes to the background
 - FPS counter scaled to the screen (toggle in Mobile Options)
+- Screen Style option: Original (16:9) or Full (uses the whole screen, including the notch area, without stretching)
 - Per-song offsets are kept in the game save instead of files
 
 ## Building

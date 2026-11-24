@@ -1,5 +1,7 @@
 package;
 
+import mobile.ScreenStyle;
+
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -142,7 +144,7 @@ class TitleState extends MusicBeatState
 		// bg.updateHitbox();
 		add(bg);
 
-		logoBl = new FlxSprite(-150, -100);
+		logoBl = new FlxSprite(-150 + ScreenStyle.getOffset(), -100);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
 		logoBl.antialiasing = true;
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24,false);
@@ -151,7 +153,7 @@ class TitleState extends MusicBeatState
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
 
-		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
+		gfDance = new FlxSprite(ScreenStyle.BASE_WIDTH * 0.4 + ScreenStyle.getOffset(), FlxG.height * 0.07);
 		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
@@ -160,7 +162,7 @@ class TitleState extends MusicBeatState
 		add(logoBl);
 	
 		//hi QT
-		qt = new FlxSprite(FlxG.width * -0.4, FlxG.height * 0.035);
+		qt = new FlxSprite(ScreenStyle.BASE_WIDTH * -0.4 + ScreenStyle.getOffset(), FlxG.height * 0.035);
 		qt.frames = Paths.getSparrowAtlas('qt_titlescreen');
 		qt.animation.addByPrefix('idle', 'titleanimation', 24, false);
 		qt.setGraphicSize(Std.int(qt.width * 0.25));
@@ -168,7 +170,7 @@ class TitleState extends MusicBeatState
 		qt.y-=200;
 		add(qt);
 
-		titleText = new FlxSprite(100, FlxG.height * 0.8);
+		titleText = new FlxSprite(100 + ScreenStyle.getOffset(), FlxG.height * 0.8);
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
 		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
 		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);

@@ -1,5 +1,7 @@
 package;
 
+import mobile.ScreenStyle;
+
 
 import openfl.Lib;
 import Options;
@@ -46,6 +48,7 @@ class OptionsMenu extends MusicBeatState
 			new InvisibleHitboxOption("Hides the hitbox colors when you press it."),
 			new InvisiblePauseButtonOption("Hides the pause button during gameplay, it still works when pressed."),
 			new DodgeButtonOption("Choose if the yellow dodge bar is placed up or down."),
+			new ScreenStyleOption("Original keeps the 16:9 screen, Full uses the whole screen without stretching. Needs a restart."),
 			new UnlockAllOption("Unlocks every song in Freeplay.")
 		])
 		
@@ -65,6 +68,7 @@ class OptionsMenu extends MusicBeatState
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
 		menuBG.updateHitbox();
 		menuBG.screenCenter();
+		ScreenStyle.cover(menuBG);
 		menuBG.antialiasing = true;
 		add(menuBG);
 

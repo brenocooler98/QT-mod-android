@@ -1,5 +1,7 @@
 package;
 
+import mobile.ScreenStyle;
+
 
 import Controls.KeyboardScheme;
 import flixel.FlxG;
@@ -54,6 +56,7 @@ class MainMenuState extends MusicBeatState
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
 		bg.updateHitbox();
 		bg.screenCenter();
+		ScreenStyle.cover(bg);
 		bg.antialiasing = true;
 		add(bg);
 
@@ -66,6 +69,7 @@ class MainMenuState extends MusicBeatState
 		magenta.setGraphicSize(Std.int(magenta.width * 1.1));
 		magenta.updateHitbox();
 		magenta.screenCenter();
+		ScreenStyle.cover(magenta);
 		magenta.visible = false;
 		magenta.antialiasing = true;
 		magenta.color = 0xFFfd719b;

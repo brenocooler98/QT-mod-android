@@ -601,3 +601,31 @@ class UnlockAllOption extends Option
 		return "Unlock All " + (FlxG.save.data.unlockAll ? "on" : "off");
 	}
 }
+
+class ScreenStyleOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.screenStyle = FlxG.save.data.screenStyle == 'full' ? 'original' : 'full';
+		FlxG.save.flush();
+		display = updateDisplay();
+
+		if ((FlxG.save.data.screenStyle == 'full') != mobile.ScreenStyle.full)
+		{
+			androidmanager.content.Interface.showConfirm('Screen Style', 'The game needs to restart to apply the new screen style. Restart now?', 'Restart', 'Later',
+				function() androidmanager.app.Application.restart());
+		}
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Screen Style " + (FlxG.save.data.screenStyle == 'full' ? "Full" : "Original");
+	}
+}
