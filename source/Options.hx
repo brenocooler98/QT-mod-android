@@ -619,7 +619,7 @@ class ScreenStyleOption extends Option
 		if ((FlxG.save.data.screenStyle == 'full') != mobile.ScreenStyle.full)
 		{
 			androidmanager.content.Interface.showConfirm('Screen Style', 'The game needs to restart to apply the new screen style. Restart now?', 'Restart', 'Later',
-				function() androidmanager.app.Application.restart());
+				function() mobile.ScreenStyle.restart());
 		}
 		return true;
 	}

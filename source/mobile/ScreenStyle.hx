@@ -13,6 +13,7 @@ class ScreenStyle
 	public static var full(default, null):Bool = false;
 
 	static var applyJNI:Dynamic = null;
+	static var restartJNI:Dynamic = null;
 	static var widthJNI:Dynamic = null;
 	static var heightJNI:Dynamic = null;
 
@@ -30,15 +31,20 @@ class ScreenStyle
 			full = false;
 		}
 
-		if (applyJNI == null)
+		try
 		{
-			applyJNI = JNI.createStaticMethod('qtmod/ScreenStyle', 'apply', '(Z)V');
-			widthJNI = JNI.createStaticMethod('qtmod/ScreenStyle', 'getScreenWidth', '()I');
-			heightJNI = JNI.createStaticMethod('qtmod/ScreenStyle', 'getScreenHeight', '()I');
-		}
+			if (applyJNI == null)
+			{
+				applyJNI = JNI.createStaticMethod('qtmod/ScreenStyle', 'apply', '(Z)V', false, true);
+				restartJNI = JNI.createStaticMethod('qtmod/ScreenStyle', 'restart', '()V', false, true);
+				widthJNI = JNI.createStaticMethod('qtmod/ScreenStyle', 'getScreenWidth', '()I', false, true);
+				heightJNI = JNI.createStaticMethod('qtmod/ScreenStyle', 'getScreenHeight', '()I', false, true);
+			}
 
-		if (applyJNI != null)
-			applyJNI(full);
+			if (applyJNI != null)
+				applyJNI(full);
+		}
+		catch (e:Dynamic) {}
 	}
 
 	public static function getGameWidth(stageWidth:Int, stageHeight:Int):Int
@@ -46,8 +52,17 @@ class ScreenStyle
 		if (!full)
 			return BASE_WIDTH;
 
-		var screenWidth:Int = widthJNI != null ? widthJNI() : stageWidth;
-		var screenHeight:Int = heightJNI != null ? heightJNI() : stageHeight;
+		var screenWidth:Int = stageWidth;
+		var screenHeight:Int = stageHeight;
+		try
+		{
+			if (widthJNI != null && heightJNI != null)
+			{
+				screenWidth = widthJNI();
+				screenHeight = heightJNI();
+			}
+		}
+		catch (e:Dynamic) {}
 		if (screenWidth <= 0 || screenHeight <= 0)
 		{
 			screenWidth = stageWidth;
@@ -55,6 +70,31 @@ class ScreenStyle
 		}
 
 		return Std.int(Math.max(BASE_WIDTH, Math.ceil(BASE_HEIGHT * screenWidth / screenHeight)));
+	}
+
+	public static function restart():Void
+	{
+		try
+		{
+			if (restartJNI != null)
+				restartJNI();
+		}
+		catch (e:Dynamic) {}
+	}
+
+	public static function reset():Void
+	{
+		if (!full)
+			return;
+		try
+		{
+			var save:FlxSave = new FlxSave();
+			save.bind('funkin', 'ninjamuffin99');
+			save.data.screenStyle = 'original';
+			save.flush();
+			save.destroy();
+		}
+		catch (e:Dynamic) {}
 	}
 
 	public static inline function getOffset():Float
