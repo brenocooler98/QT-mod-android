@@ -22,7 +22,16 @@ class MobileInput
 		if (initialized)
 			return;
 		initialized = true;
-		FlxG.signals.preUpdate.add(function() frame++);
+		FlxG.signals.preUpdate.add(onPreUpdate);
+	}
+
+	static function onPreUpdate():Void
+	{
+		frame++;
+		TouchUtil.updateDrags();
+		var top:FlxState = topState();
+		for (button in buttons)
+			button.updateStatus(button.owner == top);
 	}
 
 	public static function register(button:TouchButton):Void

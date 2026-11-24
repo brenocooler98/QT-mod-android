@@ -78,25 +78,33 @@ class TouchButton extends FlxSprite
 		}
 	}
 
-	public function check(state:FlxInputState):Bool
-	{
-		if (!exists || !visible)
-			return false;
+	var currentPressed:Bool = false;
+	var previousPressed:Bool = false;
 
+	public function updateStatus(active:Bool):Void
+	{
+		previousPressed = currentPressed;
+		currentPressed = active && exists && visible && isTouched();
+	}
+
+	function isTouched():Bool
+	{
 		var camera:FlxCamera = getCameras()[0];
 		for (touch in FlxG.touches.list)
-		{
-			var stateMatches:Bool = switch (state)
-			{
-				case PRESSED: touch.pressed;
-				case JUST_PRESSED: touch.justPressed;
-				case JUST_RELEASED: touch.justReleased;
-				case RELEASED: !touch.pressed;
-			}
-			if (stateMatches && touch.overlaps(this, camera) && !MobileInput.isBlocked(touch))
+			if (touch.pressed && touch.overlaps(this, camera) && !MobileInput.isBlocked(touch))
 				return true;
-		}
 		return false;
+	}
+
+	public function check(state:FlxInputState):Bool
+	{
+		return switch (state)
+		{
+			case PRESSED: currentPressed;
+			case JUST_PRESSED: currentPressed && !previousPressed;
+			case JUST_RELEASED: !currentPressed && previousPressed;
+			case RELEASED: !currentPressed;
+		}
 	}
 
 	public inline function pressed():Bool

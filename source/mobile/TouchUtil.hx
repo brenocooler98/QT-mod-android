@@ -5,6 +5,7 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.input.touch.FlxTouch;
+import flixel.math.FlxPoint;
 
 enum SwipeDirection
 {
@@ -16,28 +17,85 @@ enum SwipeDirection
 
 class TouchUtil
 {
-	public static var swipeDistance:Float = 60;
 	public static var tapDistance:Float = 30;
+
+	public static var verticalStep:Float = 70;
+	public static var horizontalStep:Float = 110;
+
+	static var anchors:Map<Int, FlxPoint> = new Map<Int, FlxPoint>();
+	static var steps:Array<SwipeDirection> = [];
+	static var dragged:Array<Int> = [];
+
+	public static function updateDrags():Void
+	{
+		steps.resize(0);
+
+		var active:Array<Int> = [];
+		for (touch in FlxG.touches.list)
+		{
+			var id:Int = touch.touchPointID;
+			if (!touch.pressed && !touch.justReleased)
+				continue;
+			active.push(id);
+
+			var anchor:FlxPoint = anchors.get(id);
+			if (anchor == null || touch.justPressed)
+			{
+				if (anchor != null)
+					anchor.put();
+				anchors.set(id, FlxPoint.get(touch.viewX, touch.viewY));
+				dragged.remove(id);
+				continue;
+			}
+
+			var dx:Float = touch.viewX - anchor.x;
+			var dy:Float = touch.viewY - anchor.y;
+
+			if (Math.abs(dy) >= Math.abs(dx))
+			{
+				while (Math.abs(dy) >= verticalStep)
+				{
+					var sign:Int = dy < 0 ? -1 : 1;
+					steps.push(sign < 0 ? UP : DOWN);
+					if (!dragged.contains(id))
+						dragged.push(id);
+					anchor.y += sign * verticalStep;
+					dy -= sign * verticalStep;
+				}
+			}
+			else
+			{
+				while (Math.abs(dx) >= horizontalStep)
+				{
+					var sign:Int = dx < 0 ? -1 : 1;
+					steps.push(sign < 0 ? LEFT : RIGHT);
+					if (!dragged.contains(id))
+						dragged.push(id);
+					anchor.x += sign * horizontalStep;
+					dx -= sign * horizontalStep;
+				}
+			}
+		}
+
+		for (id in [for (key in anchors.keys()) key])
+		{
+			if (!active.contains(id))
+			{
+				anchors.get(id).put();
+				anchors.remove(id);
+				dragged.remove(id);
+			}
+		}
+	}
 
 	public static function swipe(direction:SwipeDirection):Bool
 	{
-		for (swipe in FlxG.swipes)
-		{
-			if (swipe.distance < swipeDistance)
-				continue;
-
-			var dx:Float = swipe.endPosition.x - swipe.startPosition.x;
-			var dy:Float = swipe.endPosition.y - swipe.startPosition.y;
-			var result:SwipeDirection = Math.abs(dy) >= Math.abs(dx) ? (dy < 0 ? UP : DOWN) : (dx < 0 ? LEFT : RIGHT);
-			if (result == direction)
-				return true;
-		}
-		return false;
+		return steps.contains(direction);
 	}
 
 	static function isTap(touch:FlxTouch):Bool
 	{
-		if (!touch.justReleased || MobileInput.isBlocked(touch))
+		if (!touch.justReleased || dragged.contains(touch.touchPointID) || MobileInput.isBlocked(touch))
 			return false;
 		var dx:Float = touch.viewX - touch.justPressedPosition.x;
 		var dy:Float = touch.viewY - touch.justPressedPosition.y;
