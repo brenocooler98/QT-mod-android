@@ -1,6 +1,5 @@
 package;
 
-import mobile.VirtualPad;
 
 import flash.text.TextField;
 import flixel.FlxG;
@@ -140,7 +139,8 @@ class FreeplayState extends MusicBeatState
 			trace(md);
 		 */
 
-		addVirtualPad(FULL, A_B);
+		enableTouchMenu();
+		addBackButton();
 
 		super.create();
 	}
@@ -168,6 +168,8 @@ class FreeplayState extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		touchList(grpSongs.members, curSelected, changeSelection);
 
 		if (FlxG.sound.music.volume < 0.7)
 		{
@@ -203,7 +205,7 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			FlxG.switchState(new MainMenuState());
+			FlxG.switchState(() -> new MainMenuState());
 		}
 
 		if (accepted)

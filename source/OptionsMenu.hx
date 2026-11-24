@@ -1,6 +1,5 @@
 package;
 
-import mobile.VirtualPad;
 
 import openfl.Lib;
 import Options;
@@ -80,7 +79,8 @@ class OptionsMenu extends MusicBeatState
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 
-		addVirtualPad(FULL, A_B_C);
+		enableTouchMenu();
+		addBackButton();
 
 		super.create();
 	}
@@ -98,8 +98,10 @@ class OptionsMenu extends MusicBeatState
 	{
 		super.update(elapsed);
 
+		touchList(grpControls.members, curSelected, changeSelection);
+
 			if (controls.BACK && !isCat)
-				FlxG.switchState(new MainMenuState());
+				FlxG.switchState(() -> new MainMenuState());
 			else if (controls.BACK)
 			{
 				isCat = false;

@@ -1,6 +1,5 @@
 package;
 
-import mobile.VirtualPad;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -49,13 +48,16 @@ class GitarooPause extends MusicBeatState
 
 		changeThing();
 
-		addVirtualPad(LEFT_RIGHT, A);
+		enableTouchMenu();
 
 		super.create();
 	}
 
 	override function update(elapsed:Float)
 	{
+		if (!touchTap(replayButton, replaySelect ? ACCEPT : LEFT))
+			touchTap(cancelButton, replaySelect ? RIGHT : ACCEPT);
+
 		if (controls.LEFT_P || controls.RIGHT_P)
 			changeThing();
 
@@ -63,11 +65,11 @@ class GitarooPause extends MusicBeatState
 		{
 			if (replaySelect)
 			{
-				FlxG.switchState(new PlayState());
+				FlxG.switchState(() -> new PlayState());
 			}
 			else
 			{
-				FlxG.switchState(new MainMenuState());
+				FlxG.switchState(() -> new MainMenuState());
 			}
 		}
 

@@ -6,9 +6,11 @@ import openfl.Lib;
 import Conductor.BPMChangeEvent;
 import flixel.FlxG;
 import flixel.FlxCamera;
+import Controls.Control;
 import mobile.Hitbox;
-import mobile.TouchButton;
-import mobile.VirtualPad;
+import mobile.MobileButton;
+import mobile.MobileControls;
+import mobile.MobileInput;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.FlxUIState;
 import flixel.math.FlxRect;
@@ -26,53 +28,56 @@ class MusicBeatState extends FlxUIState
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
 
-	public var virtualPad:VirtualPad;
 	public var hitbox:Hitbox;
+	public var backButton:MobileButton;
+	public var pauseButton:MobileButton;
 
 	var mobileCamera:FlxCamera;
 
 	function getMobileCamera():FlxCamera
 	{
 		if (mobileCamera == null)
-		{
-			mobileCamera = new FlxCamera();
-			mobileCamera.bgColor = FlxColor.TRANSPARENT;
-			FlxG.cameras.add(mobileCamera, false);
-		}
+			mobileCamera = MobileControls.createCamera();
 		return mobileCamera;
 	}
 
-	public function addVirtualPad(dpad:DPadMode, action:ActionMode):Void
+	public function enableTouchMenu():Void
 	{
-		removeVirtualPad();
-		virtualPad = new VirtualPad(this, dpad, action);
-		var camera:FlxCamera = getMobileCamera();
-		virtualPad.forEach(function(button:TouchButton) button.cameras = [camera]);
-		add(virtualPad);
+		MobileInput.addSwipeState(this);
 	}
 
-	public function removeVirtualPad():Void
+	public function addBackButton():Void
 	{
-		if (virtualPad != null)
-		{
-			remove(virtualPad, true);
-			virtualPad.destroy();
-			virtualPad = null;
-		}
+		backButton = MobileControls.createBackButton(this, getMobileCamera());
+		add(backButton);
+	}
+
+	public function addPauseButton():Void
+	{
+		pauseButton = MobileControls.createPauseButton(this, getMobileCamera());
+		add(pauseButton);
 	}
 
 	public function addHitbox(withDodge:Bool, dodgeOnTop:Bool):Void
 	{
-		hitbox = new Hitbox(this, withDodge, dodgeOnTop);
-		var camera:FlxCamera = getMobileCamera();
-		hitbox.forEach(function(button:TouchButton) button.cameras = [camera]);
+		hitbox = MobileControls.createHitbox(this, getMobileCamera(), withDodge, dodgeOnTop);
 		add(hitbox);
+	}
+
+	function touchList(items:Array<Dynamic>, selected:Int, change:Int->Void):Void
+	{
+		MobileControls.handleList(this, cast items, selected, change);
+	}
+
+	function touchTap(?object:flixel.FlxBasic, control:Control):Bool
+	{
+		return MobileControls.handleTap(this, object, control);
 	}
 
 	override function destroy()
 	{
-		if (mobileCamera != null && FlxG.cameras.list.contains(mobileCamera))
-			FlxG.cameras.remove(mobileCamera);
+		MobileInput.removeSwipeState(this);
+		MobileControls.destroyCamera(mobileCamera);
 		mobileCamera = null;
 		super.destroy();
 	}

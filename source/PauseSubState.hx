@@ -1,6 +1,5 @@
 package;
 
-import mobile.VirtualPad;
 
 import llua.Lua;
 import Controls.Control;
@@ -10,7 +9,7 @@ import flixel.FlxSubState;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.keyboard.FlxKey;
-import flixel.system.FlxSound;
+import flixel.sound.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -90,13 +89,19 @@ class PauseSubState extends MusicBeatSubstate
 
 		changeSelection();
 
-		addVirtualPad(FULL, A);
+		enableTouchMenu();
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
 
 	override function update(elapsed:Float)
 	{
+		touchList(grpMenuShit.members, curSelected, function(change:Int)
+		{
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+			changeSelection(change);
+		});
+
 		if (pauseMusic.volume < 0.5)
 			pauseMusic.volume += 0.01 * elapsed;
 
@@ -186,7 +191,7 @@ class PauseSubState extends MusicBeatSubstate
 						Lua.close(PlayState.lua);
 						PlayState.lua = null;
 					}
-					FlxG.switchState(new MainMenuState());
+					FlxG.switchState(() -> new MainMenuState());
 			}
 		}
 

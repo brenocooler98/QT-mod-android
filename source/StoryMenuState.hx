@@ -1,6 +1,5 @@
 package;
 
-import mobile.VirtualPad;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -209,7 +208,8 @@ class StoryMenuState extends MusicBeatState
 
 		PlayState.cutsceneSkip = false; //Don't ask.
 
-		addVirtualPad(FULL, A_B);
+		enableTouchMenu();
+		addBackButton();
 
 		super.create();
 	}
@@ -235,6 +235,13 @@ class StoryMenuState extends MusicBeatState
 
 		if (!movedBack)
 		{
+			if (!selectedWeek)
+			{
+				touchList(grpWeekText.members, curWeek, changeWeek);
+				touchTap(leftArrow, LEFT);
+				touchTap(rightArrow, RIGHT);
+			}
+
 			if (!selectedWeek)
 			{
 				if (controls.UP_P)
@@ -273,7 +280,7 @@ class StoryMenuState extends MusicBeatState
 		{
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			movedBack = true;
-			FlxG.switchState(new MainMenuState());
+			FlxG.switchState(() -> new MainMenuState());
 		}
 
 		super.update(elapsed);

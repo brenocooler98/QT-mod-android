@@ -44,7 +44,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
-import flixel.system.FlxSound;
+import flixel.sound.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -468,9 +468,8 @@ class PlayState extends MusicBeatState
 		camHUD.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
-		FlxG.cameras.add(camHUD);
+		FlxG.cameras.add(camHUD, false);
 
-		FlxCamera.defaultCameras = [camGame];
 
 		persistentUpdate = true;
 		persistentDraw = true;
@@ -1775,6 +1774,7 @@ class PlayState extends MusicBeatState
 
 		var dodgeSong:Bool = SONG.song.toLowerCase() == 'termination' || SONG.song.toLowerCase() == 'tutorial';
 		addHitbox(dodgeSong, FlxG.save.data.downscroll);
+		addPauseButton();
 
 		super.create();
 	}
@@ -2726,6 +2726,8 @@ class PlayState extends MusicBeatState
 
 		if (hitbox != null)
 			hitbox.visible = false;
+		if (pauseButton != null)
+			pauseButton.visible = false;
 
 		super.openSubState(SubState);
 	}
@@ -2734,6 +2736,11 @@ class PlayState extends MusicBeatState
 	{
 		if (hitbox != null)
 			hitbox.visible = true;
+		if (pauseButton != null)
+		{
+			pauseButton.visible = true;
+			pauseButton.animation.play('idle');
+		}
 
 		if (paused)
 		{
@@ -3030,7 +3037,7 @@ class PlayState extends MusicBeatState
 				if (FlxG.random.bool(0.1))
 				{
 					// gitaroo man easter egg
-					FlxG.switchState(new GitarooPause());
+					FlxG.switchState(() -> new GitarooPause());
 				}
 				else
 					openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
@@ -3042,7 +3049,7 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.SEVEN)
 		{
-			FlxG.switchState(new ChartingState());
+			FlxG.switchState(() -> new ChartingState());
 			if (lua != null)
 			{
 				Lua.close(lua);
@@ -3078,12 +3085,12 @@ class PlayState extends MusicBeatState
 			iconP2.animation.curAnim.curFrame = 0;
 
 		/* if (FlxG.keys.justPressed.NINE)
-			FlxG.switchState(new Charting()); */
+			FlxG.switchState(() -> new Charting()); */
 
 		#if debug
 		if (FlxG.keys.justPressed.EIGHT)
 		{
-			FlxG.switchState(new AnimationDebug(SONG.player2));
+			FlxG.switchState(() -> new AnimationDebug(SONG.player2));
 			if (lua != null)
 			{
 				Lua.close(lua);
@@ -3409,7 +3416,7 @@ class PlayState extends MusicBeatState
 					gfSpeed = 1;
 				case 163:
 					// FlxG.sound.music.stop();
-					// FlxG.switchState(new TitleState());
+					// FlxG.switchState(() -> new TitleState());
 			}
 		}
 
@@ -3420,7 +3427,7 @@ class PlayState extends MusicBeatState
 				case 128, 129, 130:
 					vocals.volume = 0;
 					// FlxG.sound.music.stop();
-					// FlxG.switchState(new PlayState());
+					// FlxG.switchState(() -> new PlayState());
 			}
 		}
 
@@ -3441,7 +3448,7 @@ class PlayState extends MusicBeatState
 			openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
 
-			// FlxG.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+			// FlxG.switchState(() -> new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 		}
 
 		if (unspawnNotes[0] != null)
@@ -3974,7 +3981,7 @@ class PlayState extends MusicBeatState
 		{
 			trace('Switching to MainMenu. Thanks for playing.');
 			FlxG.sound.playMusic(Paths.music('thanks'));
-			FlxG.switchState(new MainMenuState());
+			FlxG.switchState(() -> new MainMenuState());
 			Conductor.changeBPM(102); //lmao, this code doesn't even do anything useful! (aaaaaaaaaaaaaaaaaaaaaa)
 		}	
 		else if (SONG.song.toLowerCase() == 'terminate')
@@ -3986,7 +3993,7 @@ class PlayState extends MusicBeatState
 			transIn = FlxTransitionableState.defaultTransIn;
 			transOut = FlxTransitionableState.defaultTransOut;
 
-			FlxG.switchState(new StoryMenuState());
+			FlxG.switchState(() -> new StoryMenuState());
 
 			if (lua != null)
 			{
@@ -4091,7 +4098,7 @@ class PlayState extends MusicBeatState
 						transIn = FlxTransitionableState.defaultTransIn;
 						transOut = FlxTransitionableState.defaultTransOut;
 
-						FlxG.switchState(new StoryMenuState());
+						FlxG.switchState(() -> new StoryMenuState());
 
 						if (lua != null)
 						{
@@ -4181,7 +4188,7 @@ class PlayState extends MusicBeatState
 			else
 			{
 				trace('WENT BACK TO FREEPLAY??');
-				FlxG.switchState(new FreeplayState());
+				FlxG.switchState(() -> new FreeplayState());
 			}
 		}
 	}

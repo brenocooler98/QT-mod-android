@@ -1,6 +1,5 @@
 package;
 
-import mobile.VirtualPad;
 
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -69,12 +68,14 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		bf.playAnim('firstDeath');
 
-		addVirtualPad(NONE, A_B);
+		addBackButton();
 	}
 
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		touchTap(ACCEPT);
 
 		if (controls.ACCEPT)
 		{
@@ -86,9 +87,9 @@ class GameOverSubstate extends MusicBeatSubstate
 			FlxG.sound.music.stop();
 
 			if (PlayState.isStoryMode)
-				FlxG.switchState(new StoryMenuState());
+				FlxG.switchState(() -> new StoryMenuState());
 			else
-				FlxG.switchState(new FreeplayState());
+				FlxG.switchState(() -> new FreeplayState());
 			PlayState.loadRep = false;
 		}
 

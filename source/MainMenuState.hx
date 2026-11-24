@@ -1,6 +1,5 @@
 package;
 
-import mobile.VirtualPad;
 
 import Controls.KeyboardScheme;
 import flixel.FlxG;
@@ -114,7 +113,8 @@ class MainMenuState extends MusicBeatState
 
 		changeItem();
 
-		addVirtualPad(UP_DOWN, A_B);
+		enableTouchMenu();
+		addBackButton();
 
 		super.create();
 	}
@@ -127,6 +127,13 @@ class MainMenuState extends MusicBeatState
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
+
+		if (!selectedSomethin)
+			touchList(menuItems.members, curSelected, function(change:Int)
+			{
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				changeItem(change);
+			});
 
 		if (!selectedSomethin)
 		{		
@@ -144,7 +151,7 @@ class MainMenuState extends MusicBeatState
 
 			if (controls.BACK)
 			{
-				FlxG.switchState(new TitleState());
+				FlxG.switchState(() -> new TitleState());
 			}
 
 			if (controls.ACCEPT)
@@ -181,15 +188,15 @@ class MainMenuState extends MusicBeatState
 								switch (daChoice)
 								{
 									case 'story mode':
-										FlxG.switchState(new StoryMenuState());
+										FlxG.switchState(() -> new StoryMenuState());
 										trace("Story Menu Selected");
 									case 'freeplay':
-										FlxG.switchState(new FreeplayState());
+										FlxG.switchState(() -> new FreeplayState());
 
 										trace("Freeplay Menu Selected");
 
 									case 'options':
-										FlxG.switchState(new OptionsMenu());
+										FlxG.switchState(() -> new OptionsMenu());
 								}
 							});
 						}

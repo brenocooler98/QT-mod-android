@@ -6,6 +6,7 @@ import flixel.FlxState;
 import flixel.util.FlxColor;
 import haxe.CallStack;
 import lime.app.Application;
+import mobile.MobileInput;
 import mobile.StorageUtil;
 import openfl.Lib;
 import openfl.display.FPS;
@@ -63,6 +64,7 @@ class Main extends Sprite
 
 		FlxG.mouse.visible = false;
 		FlxG.android.preventDefaultKeys = [BACK];
+		MobileInput.init();
 	}
 
 	function onCrash(event:UncaughtErrorEvent):Void

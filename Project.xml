@@ -48,7 +48,6 @@
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
 	<haxelib name="flixel-ui" />
-	<haxelib name="hscript" />
 	<haxelib name="linc_luajit" />
 
 	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />

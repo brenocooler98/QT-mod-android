@@ -37,7 +37,7 @@ class GameplayCustomizeState extends MusicBeatState
 
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
-        FlxG.cameras.add(camHUD);
+        FlxG.cameras.add(camHUD, false);
 
         background.scrollFactor.set(0.9,0.9);
         curt.scrollFactor.set(0.9,0.9);
@@ -99,7 +99,7 @@ class GameplayCustomizeState extends MusicBeatState
 
         FlxG.mouse.visible = true;
 
-		addVirtualPad(NONE, B);
+		addBackButton();
     }
 
     override function update(elapsed:Float) {
@@ -128,7 +128,7 @@ class GameplayCustomizeState extends MusicBeatState
         {
             FlxG.mouse.visible = false;
             FlxG.sound.play(Paths.sound('cancelMenu'));
-			FlxG.switchState(new OptionsMenu());
+			FlxG.switchState(() -> new OptionsMenu());
         }
 
     }

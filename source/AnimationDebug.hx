@@ -120,7 +120,7 @@ class AnimationDebug extends FlxState
 
 		if(FlxG.keys.justPressed.ESCAPE){ //Lmao, whoever made this forgot to program a way to exit this menu. -Haz
 			trace('Leaving to Main Menu');
-			FlxG.switchState(new MainMenuState());
+			FlxG.switchState(() -> new MainMenuState());
 		}
 		if (FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L)
 		{

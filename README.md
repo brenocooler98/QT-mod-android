@@ -7,7 +7,8 @@ This repository only targets **Android (ARM64)**. The Psych Engine version and t
 ## Features
 
 - Touch hitbox for gameplay, with a dedicated **DODGE** area on Termination and Tutorial
-- Virtual pad on every menu (story, freeplay, options, pause, game over, replays)
+- Direct touch on menus: tap an item to select it, tap it again to confirm, swipe to scroll
+- Animated back button on menus (bottom right) and pause button in gameplay (top right)
 - Android back button pauses the game and goes back on menus
 - Lua modcharts load straight from the APK assets
 - Replays and crash logs are saved to the app's internal storage
@@ -21,18 +22,17 @@ To build locally:
 
 ```
 haxelib install hxcpp 4.3.2
-haxelib install lime 8.1.3
-haxelib install openfl 9.3.4
-haxelib install flixel 5.6.2
-haxelib install flixel-addons 3.2.2
-haxelib install flixel-ui 2.6.1
-haxelib install hscript 2.5.0
+haxelib install lime 8.3.2
+haxelib install openfl 9.5.2
+haxelib install flixel 6.2.1
+haxelib install flixel-addons 4.0.1
+haxelib git flixel-ui https://github.com/HaxeFlixel/flixel-ui
 haxelib git linc_luajit https://github.com/superpowers04/linc_luajit
 haxelib run lime setup android
 haxelib run lime build android -final
 ```
 
-Android NDK **r21e** and Java **17** are required.
+Haxe **4.3.7**, Android NDK **r21e** and Java **17** are required.
 
 ## Credits
 

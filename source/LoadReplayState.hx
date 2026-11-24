@@ -1,6 +1,5 @@
 package;
 
-import mobile.VirtualPad;
 
 import Controls.KeyboardScheme;
 import Controls.Control;
@@ -91,7 +90,8 @@ class LoadReplayState extends MusicBeatState
 
 		changeSelection(0);
 
-		addVirtualPad(UP_DOWN, A_B);
+		enableTouchMenu();
+		addBackButton();
 
 		super.create();
 	}
@@ -133,8 +133,10 @@ class LoadReplayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
+		touchList(grpControls.members, curSelected, changeSelection);
+
 			if (controls.BACK)
-				FlxG.switchState(new OptionsMenu());
+				FlxG.switchState(() -> new OptionsMenu());
 			if (controls.UP_P)
 				changeSelection(-1);
 			if (controls.DOWN_P)

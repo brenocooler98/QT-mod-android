@@ -83,7 +83,7 @@ class TouchButton extends FlxSprite
 		if (!exists || !visible)
 			return false;
 
-		var camera:FlxCamera = cameras[0];
+		var camera:FlxCamera = getCameras()[0];
 		for (touch in FlxG.touches.list)
 		{
 			var stateMatches:Bool = switch (state)
@@ -93,7 +93,7 @@ class TouchButton extends FlxSprite
 				case JUST_RELEASED: touch.justReleased;
 				case RELEASED: !touch.pressed;
 			}
-			if (stateMatches && touch.overlaps(this, camera))
+			if (stateMatches && touch.overlaps(this, camera) && !MobileInput.isBlocked(touch))
 				return true;
 		}
 		return false;
