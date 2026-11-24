@@ -1779,7 +1779,7 @@ class PlayState extends MusicBeatState
 
 		var dodgeSong:Bool = SONG.song.toLowerCase() == 'termination' || SONG.song.toLowerCase() == 'tutorial';
 		if (ArrowsMode.active)
-			addHitbox(dodgeSong, true, strumLine.y - Note.swagWidth * 0.75, true);
+			addHitbox(dodgeSong, true, Math.min(strumLine.y - Note.swagWidth * 0.75, FlxG.height * 0.45), true);
 		else
 			addHitbox(dodgeSong, FlxG.save.data.dodgeButtonUp);
 		addPauseButton();
@@ -2991,7 +2991,7 @@ class PlayState extends MusicBeatState
 
 			for (i in 0...4)
 			{
-				strumLineNotes.members[i].visible = p1;
+				strumLineNotes.members[i].visible = p1 && !ArrowsMode.active;
 				if (i <= playerStrums.length)
 					playerStrums.members[i].visible = p2;
 			}

@@ -78,13 +78,15 @@ class TouchButton extends FlxSprite
 		}
 	}
 
+	public var touchCheck:Null<Void->Bool> = null;
+
 	var currentPressed:Bool = false;
 	var previousPressed:Bool = false;
 
 	public function updateStatus(active:Bool):Void
 	{
 		previousPressed = currentPressed;
-		currentPressed = active && exists && visible && isTouched();
+		currentPressed = active && exists && visible && (touchCheck != null ? touchCheck() : isTouched());
 	}
 
 	function isTouched():Bool

@@ -42,7 +42,7 @@ class ArrowsMode
 		note.updateHitbox();
 	}
 
-	public static inline var SPACING:Float = 190;
+	public static inline var SPACING:Float = 215;
 
 	public static function getLaneCenter(index:Int):Float
 	{

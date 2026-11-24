@@ -1,5 +1,7 @@
 package;
 
+import flixel.util.FlxTimer;
+
 import mobile.ScreenStyle;
 
 
@@ -34,6 +36,8 @@ class FreeplayState extends MusicBeatState
 	private var curPlaying:Bool = false;
 
 	private var iconArray:Array<HealthIcon> = [];
+
+	var previewTimer:FlxTimer;
 
 	override function create()
 	{
@@ -320,7 +324,13 @@ class FreeplayState extends MusicBeatState
 		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
 		// lerpScore = 0;
 
-		FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
+		if (previewTimer != null)
+			previewTimer.cancel();
+		var previewSong:String = songs[curSelected].songName;
+		previewTimer = new FlxTimer().start(0.6, function(tmr:FlxTimer)
+		{
+			FlxG.sound.playMusic(Paths.inst(previewSong), 0);
+		});
 
 		var bullShit:Int = 0;
 

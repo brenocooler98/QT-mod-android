@@ -15,6 +15,11 @@ class MobileInput
 	static var swipeStates:Array<FlxState> = [];
 	static var injected:Map<Control, Int> = new Map<Control, Int>();
 	static var frame:Int = 0;
+
+	public static var currentFrame(get, never):Int;
+
+	static inline function get_currentFrame():Int
+		return frame;
 	static var initialized:Bool = false;
 
 	public static function init():Void
