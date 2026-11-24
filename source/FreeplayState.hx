@@ -43,9 +43,9 @@ class FreeplayState extends MusicBeatState
 			if(!(data[0]=='Termination') && !(data[0]=='Cessation')){ //Add everything to the song list which isn't Termination and Cessation.
 				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1]));
 			}
-			else if(FlxG.save.data.terminationUnlocked && data[0]=='Termination') //If the list picks up Termination, check if its unlocked before adding.
+			else if(terminationUnlocked() && data[0]=='Termination') //If the list picks up Termination, check if its unlocked before adding.
 				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1]));
-			else if(FlxG.save.data.terminationBeaten && data[0]=='Cessation') //If the list picks up Cessation, check if its unlocked before adding.
+			else if(terminationBeaten() && data[0]=='Cessation') //If the list picks up Cessation, check if its unlocked before adding.
 				songs.push(new SongMetadata(data[0], Std.parseInt(data[2]), data[1]));
 			
 		}
@@ -141,6 +141,7 @@ class FreeplayState extends MusicBeatState
 
 		enableTouchMenu();
 		addBackButton();
+		backButton.alpha = 0.3;
 
 		super.create();
 	}
@@ -210,10 +211,10 @@ class FreeplayState extends MusicBeatState
 
 		if (accepted)
 		{
-			if((songs[curSelected].songName.toLowerCase()=='termination') && !(FlxG.save.data.terminationUnlocked)){
+			if((songs[curSelected].songName.toLowerCase()=='termination') && !(terminationUnlocked())){
 				trace("lmao, access denied idiot!");
 			}
-			else if((songs[curSelected].songName.toLowerCase()=='cessation') && !(FlxG.save.data.terminationBeaten)){
+			else if((songs[curSelected].songName.toLowerCase()=='cessation') && !(terminationBeaten())){
 				trace("lmao, access denied idiot! Prove yourself first mortal.");
 			}
 			else
@@ -232,12 +233,22 @@ class FreeplayState extends MusicBeatState
 		}
 	}
 
+	function terminationUnlocked():Bool
+	{
+		return FlxG.save.data.terminationUnlocked || FlxG.save.data.unlockAll;
+	}
+
+	function terminationBeaten():Bool
+	{
+		return FlxG.save.data.terminationBeaten || FlxG.save.data.unlockAll;
+	}
+
 	function changeDiff(change:Int = 0)
 	{
 		if(songs[curSelected].songName.toLowerCase()=="termination")
 		{
 			curDifficulty = 2; //Force it to hard difficulty.
-			if(FlxG.save.data.terminationUnlocked)
+			if(terminationUnlocked())
 				diffText.text = "VERY HARD";
 			else
 				diffText.text = "LOCKED";
@@ -247,7 +258,7 @@ class FreeplayState extends MusicBeatState
 		else if(songs[curSelected].songName.toLowerCase()=="cessation")
 		{
 			curDifficulty = 1; //Force it to normal difficulty.
-			if(FlxG.save.data.terminationBeaten)
+			if(terminationBeaten())
 				diffText.text = "FUTURE";
 			else
 				diffText.text = "LOCKED";

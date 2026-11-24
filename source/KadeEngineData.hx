@@ -60,6 +60,18 @@ class KadeEngineData
 		if (FlxG.save.data.watermark == null)
 			FlxG.save.data.watermark = true;
 
+		if (FlxG.save.data.invisibleHitbox == null)
+			FlxG.save.data.invisibleHitbox = false;
+
+		if (FlxG.save.data.invisiblePauseButton == null)
+			FlxG.save.data.invisiblePauseButton = false;
+
+		if (FlxG.save.data.dodgeButtonUp == null)
+			FlxG.save.data.dodgeButtonUp = false;
+
+		if (FlxG.save.data.unlockAll == null)
+			FlxG.save.data.unlockAll = false;
+
 		Conductor.recalculateTimings();
 
 		Main.watermarks = FlxG.save.data.watermark;

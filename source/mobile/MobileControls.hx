@@ -27,7 +27,7 @@ class MobileControls
 
 	public static function createBackButton(owner:FlxState, camera:FlxCamera):MobileButton
 	{
-		var button:MobileButton = new MobileButton('backButton', 'back', BACK, 0.5);
+		var button:MobileButton = new MobileButton('backButton', 'back', BACK, 0.65);
 		button.owner = owner;
 		button.setPosition(FlxG.width - button.width - MARGIN, FlxG.height - button.height - MARGIN);
 		button.cameras = [camera];
@@ -39,6 +39,8 @@ class MobileControls
 		var button:MobileButton = new MobileButton('pauseButton', 'pause', PAUSE, 0.9);
 		button.owner = owner;
 		button.setPosition(FlxG.width - button.width - MARGIN, MARGIN);
+		if (FlxG.save.data.invisiblePauseButton)
+			button.alpha = 0;
 		button.cameras = [camera];
 		return button;
 	}

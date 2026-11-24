@@ -513,3 +513,91 @@ class OffsetMenu extends Option
 
 
 
+
+class InvisibleHitboxOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.invisibleHitbox = !FlxG.save.data.invisibleHitbox;
+		FlxG.save.flush();
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Invisible Hitbox " + (FlxG.save.data.invisibleHitbox ? "on" : "off");
+	}
+}
+
+class InvisiblePauseButtonOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.invisiblePauseButton = !FlxG.save.data.invisiblePauseButton;
+		FlxG.save.flush();
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Invisible Pause Button " + (FlxG.save.data.invisiblePauseButton ? "on" : "off");
+	}
+}
+
+class DodgeButtonOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.dodgeButtonUp = !FlxG.save.data.dodgeButtonUp;
+		FlxG.save.flush();
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Dodge Button " + (FlxG.save.data.dodgeButtonUp ? "Up" : "Down");
+	}
+}
+
+class UnlockAllOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.unlockAll = !FlxG.save.data.unlockAll;
+		FlxG.save.flush();
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Unlock All " + (FlxG.save.data.unlockAll ? "on" : "off");
+	}
+}

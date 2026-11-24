@@ -39,6 +39,13 @@ class OptionsMenu extends MusicBeatState
 			new WatermarkOption("Turn off all watermarks from the engine."),
 			new QTOptimiseOption("Disables some visual elements to help performance in 3rd and 4th song.")
 			
+		]),
+
+		new OptionCatagory("Mobile Options", [
+			new InvisibleHitboxOption("Hides the hitbox colors when you press it."),
+			new InvisiblePauseButtonOption("Hides the pause button during gameplay, it still works when pressed."),
+			new DodgeButtonOption("Choose if the yellow dodge bar is placed up or down."),
+			new UnlockAllOption("Unlocks every song in Freeplay.")
 		])
 		
 	];

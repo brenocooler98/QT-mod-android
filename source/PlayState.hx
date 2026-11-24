@@ -1773,7 +1773,7 @@ class PlayState extends MusicBeatState
 		deathBySawBlade = false; //Some reason, it keeps it's value after death, so this forces itself to reset to false.
 
 		var dodgeSong:Bool = SONG.song.toLowerCase() == 'termination' || SONG.song.toLowerCase() == 'tutorial';
-		addHitbox(dodgeSong, FlxG.save.data.downscroll);
+		addHitbox(dodgeSong, FlxG.save.data.dodgeButtonUp);
 		addPauseButton();
 
 		super.create();

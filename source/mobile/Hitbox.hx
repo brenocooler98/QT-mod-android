@@ -34,10 +34,10 @@ class Hitbox extends FlxTypedGroup<TouchButton>
 
 		if (withDodge)
 		{
-			buttonDodge = new TouchButton(0, dodgeOnTop ? 0 : FlxG.height - DODGE_HEIGHT, FlxG.width, DODGE_HEIGHT, 0xFFFFFFFF, null, LABEL('DODGE'), false);
+			buttonDodge = new TouchButton(0, dodgeOnTop ? 0 : FlxG.height - DODGE_HEIGHT, FlxG.width, DODGE_HEIGHT, 0xFFFFFF00, null, NONE, false);
 			buttonDodge.owner = owner;
-			buttonDodge.idleAlpha = 0.15;
-			buttonDodge.pressedAlpha = 0.4;
+			buttonDodge.idleAlpha = 0.25;
+			buttonDodge.pressedAlpha = 0.5;
 			add(buttonDodge);
 		}
 	}
@@ -46,8 +46,8 @@ class Hitbox extends FlxTypedGroup<TouchButton>
 	{
 		var button:TouchButton = new TouchButton(x, y, width, height, color, control, NONE, false);
 		button.owner = owner;
-		button.idleAlpha = 0.08;
-		button.pressedAlpha = 0.3;
+		button.idleAlpha = 0;
+		button.pressedAlpha = FlxG.save.data.invisibleHitbox ? 0 : 0.3;
 		add(button);
 		return button;
 	}
