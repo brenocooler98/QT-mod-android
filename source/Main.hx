@@ -107,6 +107,11 @@ class Main extends Sprite
 		var message:String = Std.string(event.error) + '\n\n' + CallStack.toString(CallStack.exceptionStack(true));
 
 		ScreenStyle.reset();
+		try
+		{
+			mobile.ArrowsMode.end();
+		}
+		catch (e:Dynamic) {}
 
 		try
 		{

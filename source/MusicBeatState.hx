@@ -58,9 +58,9 @@ class MusicBeatState extends FlxUIState
 		add(pauseButton);
 	}
 
-	public function addHitbox(withDodge:Bool, dodgeOnTop:Bool):Void
+	public function addHitbox(withDodge:Bool, dodgeOnTop:Bool, laneTop:Float = 0, invisible:Bool = false):Void
 	{
-		hitbox = MobileControls.createHitbox(this, getMobileCamera(), withDodge, dodgeOnTop);
+		hitbox = MobileControls.createHitbox(this, getMobileCamera(), withDodge, dodgeOnTop, laneTop, invisible);
 		add(hitbox);
 	}
 

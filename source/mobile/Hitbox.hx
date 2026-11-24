@@ -18,14 +18,18 @@ class Hitbox extends FlxTypedGroup<TouchButton>
 
 	var owner:FlxState;
 
-	public function new(owner:FlxState, withDodge:Bool, dodgeOnTop:Bool)
+	var lanesInvisible:Bool;
+
+	public function new(owner:FlxState, withDodge:Bool, dodgeOnTop:Bool, laneTop:Float = 0, invisible:Bool = false)
 	{
 		super();
 		this.owner = owner;
+		lanesInvisible = invisible || FlxG.save.data.invisibleHitbox;
 
 		var laneWidth:Int = Std.int(FlxG.width / 4);
-		var laneHeight:Int = withDodge ? FlxG.height - DODGE_HEIGHT : FlxG.height;
-		var laneY:Float = withDodge && dodgeOnTop ? DODGE_HEIGHT : 0;
+		var laneY:Float = Math.max(laneTop, withDodge && dodgeOnTop ? DODGE_HEIGHT : 0);
+		var laneBottom:Float = withDodge && !dodgeOnTop ? FlxG.height - DODGE_HEIGHT : FlxG.height;
+		var laneHeight:Int = Std.int(Math.max(1, laneBottom - laneY));
 
 		buttonLeft = make(0, laneY, laneWidth, laneHeight, 0xFFC24B99, LEFT);
 		buttonDown = make(laneWidth, laneY, laneWidth, laneHeight, 0xFF00FFFF, DOWN);
@@ -47,7 +51,7 @@ class Hitbox extends FlxTypedGroup<TouchButton>
 		var button:TouchButton = new TouchButton(x, y, width, height, color, control, NONE, false);
 		button.owner = owner;
 		button.idleAlpha = 0;
-		button.pressedAlpha = FlxG.save.data.invisibleHitbox ? 0 : 0.3;
+		button.pressedAlpha = lanesInvisible ? 0 : 0.3;
 		add(button);
 		return button;
 	}

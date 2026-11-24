@@ -110,7 +110,7 @@ class TouchUtil
 				continue;
 			if (object == null)
 				return true;
-			if (touch.overlaps(object, camera != null ? camera : getCamera(object)))
+			if (touch.overlaps(object, getCamera(object, camera)))
 				return true;
 		}
 		return false;
@@ -119,25 +119,36 @@ class TouchUtil
 	public static function justTouched(object:FlxBasic, ?camera:FlxCamera):Bool
 	{
 		for (touch in FlxG.touches.list)
-			if (touch.justPressed && touch.overlaps(object, camera != null ? camera : getCamera(object)))
+			if (touch.justPressed && touch.overlaps(object, getCamera(object, camera)))
 				return true;
 		return false;
 	}
 
-	public static function tappedIndex(objects:Array<FlxBasic>):Int
+	public static function tappedIndex(objects:Array<FlxBasic>, ?camera:FlxCamera):Int
 	{
 		for (i in 0...objects.length)
 		{
 			var object:FlxBasic = objects[i];
-			if (object != null && object.exists && object.visible && tapped(object))
+			if (object != null && object.exists && object.visible && tapped(object, camera))
 				return i;
 		}
 		return -1;
 	}
 
-	static function getCamera(object:FlxBasic):FlxCamera
+	static function getCamera(object:FlxBasic, ?fallback:FlxCamera):FlxCamera
 	{
+		@:privateAccess var own:Array<FlxCamera> = object._cameras;
+		if (own != null && own.length > 0)
+			return own[0];
+		if (fallback != null)
+			return fallback;
 		var cameras:Array<FlxCamera> = object.getCameras();
+		return cameras != null && cameras.length > 0 ? cameras[0] : FlxG.camera;
+	}
+
+	public static function getStateCamera(state:flixel.FlxState):FlxCamera
+	{
+		var cameras:Array<FlxCamera> = state.getCameras();
 		return cameras != null && cameras.length > 0 ? cameras[0] : FlxG.camera;
 	}
 }

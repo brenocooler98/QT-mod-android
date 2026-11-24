@@ -629,3 +629,25 @@ class ScreenStyleOption extends Option
 		return "Screen Style " + (FlxG.save.data.screenStyle == 'full' ? "Full" : "Original");
 	}
 }
+
+class HitboxModeOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		FlxG.save.data.hitboxMode = FlxG.save.data.hitboxMode == 'Arrows' ? 'Four Lanes' : 'Arrows';
+		FlxG.save.flush();
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Hitbox Mode " + (FlxG.save.data.hitboxMode == 'Arrows' ? "Arrows" : "Four Lanes");
+	}
+}

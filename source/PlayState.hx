@@ -1,5 +1,6 @@
 package;
 
+import mobile.ArrowsMode;
 import mobile.ScreenStyle;
 
 import openfl.geom.Matrix;
@@ -445,6 +446,8 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
+		ArrowsMode.begin();
+
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
@@ -1775,7 +1778,10 @@ class PlayState extends MusicBeatState
 		deathBySawBlade = false; //Some reason, it keeps it's value after death, so this forces itself to reset to false.
 
 		var dodgeSong:Bool = SONG.song.toLowerCase() == 'termination' || SONG.song.toLowerCase() == 'tutorial';
-		addHitbox(dodgeSong, FlxG.save.data.dodgeButtonUp);
+		if (ArrowsMode.active)
+			addHitbox(dodgeSong, true, strumLine.y - Note.swagWidth * 0.75, true);
+		else
+			addHitbox(dodgeSong, FlxG.save.data.dodgeButtonUp);
 		addPauseButton();
 
 		super.create();
@@ -2703,6 +2709,14 @@ class PlayState extends MusicBeatState
 			babyArrow.x += 50;
 			babyArrow.x += ((ScreenStyle.BASE_WIDTH / 2) * player) + ScreenStyle.getOffset();
 
+			if (ArrowsMode.active)
+			{
+				if (player == 1)
+					babyArrow.x = ArrowsMode.getLaneX(i, babyArrow.width);
+				else
+					babyArrow.visible = false;
+			}
+
 			strumLineNotes.add(babyArrow);
 		}
 	}
@@ -2710,6 +2724,12 @@ class PlayState extends MusicBeatState
 	function tweenCamIn():Void
 	{
 		FlxTween.tween(FlxG.camera, {zoom: 1.3}, (Conductor.stepCrochet * 4 / 1000), {ease: FlxEase.elasticInOut});
+	}
+
+	override function destroy()
+	{
+		ArrowsMode.end();
+		super.destroy();
 	}
 
 	override function openSubState(SubState:FlxSubState)

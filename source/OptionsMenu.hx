@@ -44,6 +44,7 @@ class OptionsMenu extends MusicBeatState
 		]),
 
 		new OptionCatagory("Mobile Options", [
+			new HitboxModeOption("Four Lanes: four touch areas on the screen. Arrows: tap the arrows, the strumline goes down and fills the screen."),
 			new FPSOption("Shows the FPS counter on the top left of the screen."),
 			new InvisibleHitboxOption("Hides the hitbox colors when you press it."),
 			new InvisiblePauseButtonOption("Hides the pause button during gameplay, it still works when pressed."),

@@ -45,9 +45,9 @@ class MobileControls
 		return button;
 	}
 
-	public static function createHitbox(owner:FlxState, camera:FlxCamera, withDodge:Bool, dodgeOnTop:Bool):Hitbox
+	public static function createHitbox(owner:FlxState, camera:FlxCamera, withDodge:Bool, dodgeOnTop:Bool, laneTop:Float = 0, invisible:Bool = false):Hitbox
 	{
-		var hitbox:Hitbox = new Hitbox(owner, withDodge, dodgeOnTop);
+		var hitbox:Hitbox = new Hitbox(owner, withDodge, dodgeOnTop, laneTop, invisible);
 		hitbox.forEach(function(button:TouchButton) button.cameras = [camera]);
 		return hitbox;
 	}
@@ -57,7 +57,7 @@ class MobileControls
 		if (owner != MobileInput.topState())
 			return;
 
-		var index:Int = TouchUtil.tappedIndex(items);
+		var index:Int = TouchUtil.tappedIndex(items, TouchUtil.getStateCamera(owner));
 		if (index == -1)
 			return;
 
@@ -69,7 +69,7 @@ class MobileControls
 
 	public static function handleTap(owner:FlxState, ?object:FlxBasic, control:Control):Bool
 	{
-		if (owner != MobileInput.topState() || !TouchUtil.tapped(object))
+		if (owner != MobileInput.topState() || !TouchUtil.tapped(object, TouchUtil.getStateCamera(owner)))
 			return false;
 		MobileInput.inject(control);
 		return true;

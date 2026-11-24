@@ -6,6 +6,7 @@ This repository only targets **Android (ARM64)**. The Psych Engine version and t
 
 ## Features
 
+- Hitbox Mode option: Four Lanes (four touch areas) or Arrows (tap the strums, the strumline goes down and spreads across the screen)
 - Touch hitbox for gameplay, with a dedicated **DODGE** area on Termination and Tutorial
 - Direct touch on menus: tap an item to select it, tap it again to confirm, swipe to scroll
 - Animated back button on menus (bottom right) and pause button in gameplay (top right)

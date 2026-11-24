@@ -69,6 +69,9 @@ class KadeEngineData
 		if (FlxG.save.data.dodgeButtonUp == null)
 			FlxG.save.data.dodgeButtonUp = false;
 
+		if (FlxG.save.data.hitboxMode == null)
+			FlxG.save.data.hitboxMode = 'Four Lanes';
+
 		if (FlxG.save.data.screenStyle == null)
 			FlxG.save.data.screenStyle = 'original';
 
