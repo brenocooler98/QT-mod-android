@@ -68,6 +68,7 @@ jobs:
           haxelib install flixel-addons 4.0.1 --quiet
           haxelib git flixel-ui https://github.com/HaxeFlixel/flixel-ui --quiet
           haxelib git linc_luajit https://github.com/superpowers04/linc_luajit --quiet
+          haxelib git android-manager https://github.com/BrenninhoTools/android-manager --quiet
 
       - name: List Haxelibs
         run: haxelib list

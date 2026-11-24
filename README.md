@@ -11,7 +11,9 @@ This repository only targets **Android (ARM64)**. The Psych Engine version and t
 - Animated back button on menus (bottom right) and pause button in gameplay (top right)
 - Android back button pauses the game and goes back on menus
 - Lua modcharts load straight from the APK assets
-- Replays and crash logs are saved to the app's internal storage
+- Replays and crash logs are saved to `Android/data/com.hazard24.qtmod/files`
+- Screen stays on while playing, immersive fullscreen, and the game pauses itself when the app goes to the background
+- FPS counter scaled to the screen (toggle in Mobile Options)
 - Per-song offsets are kept in the game save instead of files
 
 ## Building
@@ -28,6 +30,7 @@ haxelib install flixel 6.2.1
 haxelib install flixel-addons 4.0.1
 haxelib git flixel-ui https://github.com/HaxeFlixel/flixel-ui
 haxelib git linc_luajit https://github.com/superpowers04/linc_luajit
+haxelib git android-manager https://github.com/BrenninhoTools/android-manager
 haxelib run lime setup android
 haxelib run lime build android -final
 ```

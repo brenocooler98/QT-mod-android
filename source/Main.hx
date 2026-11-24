@@ -5,6 +5,8 @@ import flixel.FlxGame;
 import flixel.FlxState;
 import flixel.util.FlxColor;
 import haxe.CallStack;
+import androidmanager.callback.Callback;
+import androidmanager.view.Window;
 import lime.app.Application;
 import mobile.MobileInput;
 import mobile.StorageUtil;
@@ -58,13 +60,41 @@ class Main extends Sprite
 		game = new FlxGame(gameWidth, gameHeight, initialState, framerate, framerate, skipSplash, startFullscreen);
 		addChild(game);
 
-		fpsCounter = new FPS(10, 3, 0xFFFFFF);
+		fpsCounter = new FPS(0, 0, 0xFFFFFF);
 		addChild(fpsCounter);
 		toggleFPS(FlxG.save.data.fps);
+
+		stage.addEventListener(Event.RESIZE, onResize);
+		onResize();
+
+		Window.keepScreenOn = true;
+		Window.immersive = true;
+		Callback.init();
+		Callback.onPause.add(onAppPause);
 
 		FlxG.mouse.visible = false;
 		FlxG.android.preventDefaultKeys = [BACK];
 		MobileInput.init();
+	}
+
+	function onResize(?event:Event):Void
+	{
+		if (fpsCounter == null)
+			return;
+
+		var scale:Float = Math.min(stage.stageWidth / gameWidth, stage.stageHeight / gameHeight);
+		var offsetX:Float = (stage.stageWidth - gameWidth * scale) / 2;
+		var offsetY:Float = (stage.stageHeight - gameHeight * scale) / 2;
+
+		fpsCounter.scaleX = fpsCounter.scaleY = scale * 1.5;
+		fpsCounter.x = offsetX + 10 * scale;
+		fpsCounter.y = offsetY + 6 * scale;
+	}
+
+	function onAppPause():Void
+	{
+		if (Std.isOfType(FlxG.state, PlayState) && FlxG.state.subState == null)
+			MobileInput.inject(PAUSE);
 	}
 
 	function onCrash(event:UncaughtErrorEvent):Void

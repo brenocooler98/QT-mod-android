@@ -42,6 +42,7 @@ class OptionsMenu extends MusicBeatState
 		]),
 
 		new OptionCatagory("Mobile Options", [
+			new FPSOption("Shows the FPS counter on the top left of the screen."),
 			new InvisibleHitboxOption("Hides the hitbox colors when you press it."),
 			new InvisiblePauseButtonOption("Hides the pause button during gameplay, it still works when pressed."),
 			new DodgeButtonOption("Choose if the yellow dodge bar is placed up or down."),
